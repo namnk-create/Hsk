@@ -178,7 +178,8 @@ body{
 
 /* ---------- Lesson flow ---------- */
 .lesson-header{display:flex; align-items:center; gap:10px; margin-bottom:10px; position:sticky; top:0; background:var(--paper); z-index:30; padding-top:10px; padding-bottom:4px;}
-.lesson-back{background:none; border:none; font-size:20px; color:var(--ink-soft); cursor:pointer; padding:4px;}
+.lesson-back{background:none; border:none; font-size:22px; color:var(--ink-soft); cursor:pointer; padding:10px; min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; margin:-10px 0 -10px -6px; border-radius:50%;}
+.lesson-back:active{background:var(--paper-deep);}
 .progress-track{flex:1; height:7px; background:var(--paper-deep); border-radius:6px; overflow:hidden;}
 .progress-fill{height:100%; background:var(--seal); border-radius:6px; transition:width .3s;}
 .step-label{font-size:12px; color:var(--ink-soft); font-weight:700; text-align:center; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;}
@@ -297,6 +298,8 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
   font-size:16px; margin-bottom:14px; text-align:center; background:#fff;
 }
 .name-input:focus{outline:none; border-color:var(--seal);}
+.name-zh-preview{min-height:20px; font-size:14px; color:var(--seal-dark); font-weight:700; margin:-6px 0 14px;}
+.greet-zh{color:var(--seal); font-weight:700;}
 .restore-divider{display:flex; align-items:center; gap:10px; margin:16px 0 12px; color:var(--ink-soft); font-size:12px;}
 .restore-divider::before, .restore-divider::after{content:''; flex:1; height:1px; background:var(--border);}
 .restore-msg{margin-top:10px; font-size:12.5px; font-weight:600;}
@@ -433,6 +436,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
     <div class="name-modal-title">Chào mừng bạn đến với 词汇课!</div>
     <div class="name-modal-sub">Cho mình biết tên của bạn để cùng đồng hành trong suốt quá trình học nhé</div>
     <input type="text" id="nameInput" class="name-input" placeholder="Nhập tên của bạn..." maxlength="20">
+    <div class="name-zh-preview" id="nameZhPreview"></div>
     <button class="btn-primary" id="nameSubmitBtn">Bắt đầu học →</button>
     <button type="button" class="skip-link" id="nameSkipBtn">Bỏ qua</button>
     <div class="restore-divider"><span>hoặc</span></div>
@@ -678,6 +682,35 @@ function showNameModal(prefill){
 
 function closeNameModal(){
   document.getElementById('nameModalOverlay').classList.remove('open');
+}
+
+/* ---------- Dich ten (goc Han Viet) sang chu Han de hien thi than thien ---------- */
+const VN_NAME_TO_HANZI = {
+  'nam':{h:'南',p:'nán'}, 'anh':{h:'英',p:'yīng'}, 'minh':{h:'明',p:'míng'}, 'hùng':{h:'雄',p:'xióng'},
+  'dũng':{h:'勇',p:'yǒng'}, 'tuấn':{h:'俊',p:'jùn'}, 'long':{h:'龙',p:'lóng'}, 'sơn':{h:'山',p:'shān'},
+  'hải':{h:'海',p:'hǎi'}, 'hòa':{h:'和',p:'hé'}, 'bình':{h:'平',p:'píng'}, 'thanh':{h:'清',p:'qīng'},
+  'phong':{h:'风',p:'fēng'}, 'đức':{h:'德',p:'dé'}, 'quang':{h:'光',p:'guāng'}, 'vinh':{h:'荣',p:'róng'},
+  'thắng':{h:'胜',p:'shèng'}, 'cường':{h:'强',p:'qiáng'}, 'hoàng':{h:'黄',p:'huáng'}, 'khánh':{h:'庆',p:'qìng'},
+  'kiên':{h:'坚',p:'jiān'}, 'việt':{h:'越',p:'yuè'}, 'trung':{h:'忠',p:'zhōng'}, 'phúc':{h:'福',p:'fú'},
+  'lộc':{h:'禄',p:'lù'}, 'thọ':{h:'寿',p:'shòu'}, 'nghĩa':{h:'义',p:'yì'}, 'nhân':{h:'仁',p:'rén'},
+  'trí':{h:'智',p:'zhì'}, 'tâm':{h:'心',p:'xīn'}, 'hạnh':{h:'幸',p:'xìng'}, 'linh':{h:'灵',p:'líng'},
+  'lan':{h:'兰',p:'lán'}, 'hương':{h:'香',p:'xiāng'}, 'hoa':{h:'花',p:'huā'}, 'mai':{h:'梅',p:'méi'},
+  'thảo':{h:'草',p:'cǎo'}, 'phương':{h:'芳',p:'fāng'}, 'trang':{h:'庄',p:'zhuāng'}, 'ngọc':{h:'玉',p:'yù'},
+  'yến':{h:'燕',p:'yàn'}, 'vân':{h:'云',p:'yún'}, 'hồng':{h:'红',p:'hóng'}, 'xuân':{h:'春',p:'chūn'},
+  'thu':{h:'秋',p:'qiū'}, 'hạ':{h:'夏',p:'xià'}, 'đông':{h:'冬',p:'dōng'}, 'nga':{h:'娥',p:'é'},
+  'tuyết':{h:'雪',p:'xuě'}, 'my':{h:'美',p:'měi'}, 'mỹ':{h:'美',p:'měi'}, 'kim':{h:'金',p:'jīn'},
+  'châu':{h:'珠',p:'zhū'}, 'giang':{h:'江',p:'jiāng'}, 'hằng':{h:'姮',p:'héng'}, 'thắm':{h:'湛',p:'zhàn'},
+  'thúy':{h:'翠',p:'cuì'}, 'nhung':{h:'绒',p:'róng'}
+};
+function lookupNameZh(name){
+  if(!name) return null;
+  const tokens = name.trim().toLowerCase().split(/\s+/);
+  // Uu tien tu cuoi cung (ten goi thuong dat cuoi ho ten day du), sau do thu ca cum
+  const lastWord = tokens[tokens.length - 1];
+  if(VN_NAME_TO_HANZI[lastWord]) return VN_NAME_TO_HANZI[lastWord];
+  const fullLower = name.trim().toLowerCase();
+  if(VN_NAME_TO_HANZI[fullLower]) return VN_NAME_TO_HANZI[fullLower];
+  return null;
 }
 
 function submitName(){
@@ -1176,7 +1209,10 @@ function renderHome(){
   checkDailyGoalReset();
 
   const greetingEl = document.getElementById('homeGreeting');
-  const greetText = STATE.userName ? `👋 Chào ${STATE.userName}!` : '👋 Chào bạn!';
+  const nameZh = lookupNameZh(STATE.userName);
+  const greetText = STATE.userName
+    ? `👋 Chào ${STATE.userName}${nameZh ? ` <span class="hanzi greet-zh">(${nameZh.h})</span>` : ''}!`
+    : '👋 Chào bạn!';
   greetingEl.innerHTML = `<span>${greetText}</span><button type="button" class="edit-name-link" id="editNameBtn">Đổi tên</button>`;
   document.getElementById('editNameBtn').addEventListener('click', () => showNameModal(STATE.userName));
 
@@ -1471,7 +1507,7 @@ function buildChallengeTask(newWords){
   const chosen = withEx.slice(0, count);
   const zh = chosen.map(i => WORDS[i].ez).join('');
   const py = chosen.map(i => WORDS[i].ep).join(' ');
-  const vi = chosen.map((i, idx) => (idx + 1) + '. ' + personalizeVi(WORDS[i].ev)).join('  ');
+  const vi = chosen.map((i, idx) => (idx + 1) + '. ' + WORDS[i].ev).join('  ');
   return { target: zh, py, vi, count };
 }
 
@@ -1953,7 +1989,7 @@ function renderStepExamples(body){
       <div class="word-py">${w.p} · ${w.v}</div>
       <button class="speak-btn sm" data-speak="${w.h}" style="margin-bottom:10px;">🔊</button>
       <div id="exContent">${hasEx
-        ? `<div class="sent-zh hanzi">${w.ez}</div><div class="sent-py">${w.ep}</div><div class="sent-vi">${personalizeVi(w.ev)}</div><button class="speak-btn wide" data-speak="${w.ez}" style="margin-top:10px;">🔊 Nghe câu</button>`
+        ? `<div class="sent-zh hanzi">${w.ez}</div><div class="sent-py">${w.ep}</div><div class="sent-vi">${w.ev}</div><button class="speak-btn wide" data-speak="${w.ez}" style="margin-top:10px;">🔊 Nghe câu</button>`
         : `<div class="err-box">Từ này chưa có câu ví dụ.</div>`}</div>
     </div>
     <div class="fc-nav" style="margin-top:16px;">
@@ -2422,6 +2458,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('nameInput').addEventListener('keydown', (e) => {
     if(e.key === 'Enter') submitName();
   });
+  document.getElementById('nameInput').addEventListener('input', (e) => {
+    const zh = lookupNameZh(e.target.value);
+    const preview = document.getElementById('nameZhPreview');
+    preview.textContent = zh ? `Tên bạn trong tiếng Trung: ${zh.h} (${zh.p})` : '';
+  });
 
   // Khoi phuc tien do tu file cu, ngay tu man hinh dau tien
   document.getElementById('restoreFromStartBtn').addEventListener('click', () => {
@@ -2483,12 +2524,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   document.getElementById('lessonBackBtn').addEventListener('click', () => {
-    const wantExit = confirm('Thoát bài học? Tiến độ câu hỏi đang làm dở sẽ không được lưu (phần đã hoàn thành trước đó vẫn giữ nguyên).');
-    if(!wantExit) return;
-    if(confirm('Bạn có muốn xuất file lưu tiến độ lại trước khi thoát không?')){
-      exportProgress();
+    if(confirm('Thoát bài học? Tiến độ câu hỏi đang làm dở sẽ không được lưu (phần đã hoàn thành trước đó vẫn giữ nguyên). Bạn có thể xuất file lưu tiến độ bất cứ lúc nào ở trang chủ.')){
+      exitLesson();
     }
-    exitLesson();
   });
 
   document.getElementById('btnVoiceDiag').addEventListener('click', runVoiceDiagnostic);
