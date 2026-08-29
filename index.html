@@ -149,6 +149,8 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
   display:inline-flex; align-items:center; justify-content:center; margin-top:10px; flex-shrink:0;
 }
 .speak-btn:active{background:#cfe3d6;}
+.speak-btn.speaking{animation:speakPulse 0.9s ease-in-out infinite;}
+@keyframes speakPulse{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.55; transform:scale(0.94);}}
 .speak-btn.sm{width:30px; height:30px; font-size:13px; margin:0;}
 .speak-btn.wide{width:auto; border-radius:20px; padding:8px 16px; font-size:13px; font-weight:700; gap:6px;}
 .speak-row{display:flex; align-items:center; gap:8px; justify-content:center;}
@@ -231,7 +233,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 .writing-word{font-size:24px; font-weight:800;}
 .writing-py{color:var(--gold); font-weight:700; font-size:16px;}
 .writing-word-vi{color:var(--ink-soft); font-size:14px; margin-bottom:16px;}
-.writing-canvas-wrap{position:relative; margin:0 auto; border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#FAFAF7;}
+.writing-canvas-wrap{position:relative; margin:0 auto; border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#FAFAF7; touch-action:none;}
 .writing-canvas-wrap canvas{position:absolute; top:0; left:0; touch-action:none;}
 .writing-preview{position:relative; cursor:pointer; display:inline-block;}
 .writing-preview-hint{margin-top:10px; font-size:13px; font-weight:700; color:var(--seal);}
@@ -629,7 +631,7 @@ function tickSessionTimer(){
   }
 }
 
-function speak(text){
+function speak(text, btnEl){
   if(!text || !('speechSynthesis' in window)) return;
   try{
     const synth = window.speechSynthesis;
@@ -642,8 +644,41 @@ function speak(text){
     u.rate = 0.85;
     const zhVoice = findChineseVoice();
     if(zhVoice) u.voice = zhVoice;
+
+    // Phan hoi ngay lap tuc de nguoi dung biet la dang xu ly, khong phai bi treo
+    // (mot so trinh duyet/thiet bi can vai giay "khoi dong nguoi" cho lan doc dau tien).
+    if(btnEl){
+      btnEl.classList.add('speaking');
+      const isWide = btnEl.classList.contains('wide');
+      let restore;
+      if(isWide){
+        const original = btnEl.dataset.origLabel || btnEl.textContent;
+        btnEl.dataset.origLabel = original;
+        btnEl.textContent = '🔊 Đang tải...';
+        restore = () => { btnEl.classList.remove('speaking'); btnEl.textContent = btnEl.dataset.origLabel; };
+      } else {
+        restore = () => { btnEl.classList.remove('speaking'); };
+      }
+      u.onstart = () => { if(isWide) btnEl.textContent = '🔊 Đang đọc...'; };
+      u.onend = restore;
+      u.onerror = restore;
+      // An toan: neu qua 8 giay ma van chua bat dau/ket thuc thi tu phuc hoi giao dien,
+      // tranh nut bi ket vinh vien neu dong co doc gap loi khong bao loi ro rang.
+      setTimeout(() => { if(btnEl.classList.contains('speaking')) restore(); }, 8000);
+    }
+
     synth.speak(u);
   }catch(e){ /* trinh duyet khong ho tro phat am, bo qua */ }
+}
+
+function warmUpSpeech(){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    const u = new SpeechSynthesisUtterance('.');
+    u.lang = 'zh-CN';
+    u.volume = 0; // khoi dong am tham, nguoi dung khong nghe thay
+    window.speechSynthesis.speak(u);
+  }catch(e){ /* bo qua */ }
 }
 
 function runVoiceDiagnostic(){
@@ -1156,6 +1191,12 @@ function openWritingModal(task, cell){
   const inkCanvas = document.getElementById('inkCanvasModal');
   guideCanvas.width = wPx; guideCanvas.height = hPx;
   inkCanvas.width = wPx; inkCanvas.height = hPx;
+  // Gan ro CSS width/height khop dung do phan giai ve, loai bo hoan toan viec phai
+  // quy doi ti le trong getPos() - day la nguyen nhan hay gay lech toa do tren mot so
+  // trinh duyet di dong khi kich thuoc CSS mac dinh cua canvas khong khop 100% voi
+  // thuoc tinh width/height.
+  guideCanvas.style.width = wPx + 'px'; guideCanvas.style.height = hPx + 'px';
+  inkCanvas.style.width = wPx + 'px'; inkCanvas.style.height = hPx + 'px';
 
   drawCharsToCanvas(guideCanvas.getContext('2d'), task.chars, modalCell, 'rgba(42,36,32,0.16)', true);
   inkCanvas.getContext('2d').clearRect(0, 0, wPx, hPx);
@@ -1766,14 +1807,20 @@ function renderStepSummary(body){
 document.addEventListener('DOMContentLoaded', async () => {
   await loadState();
   setInterval(tickSessionTimer, 1000);
+  let resizeDebounceTimer = null;
   window.addEventListener('resize', () => {
-    if(document.body.classList.contains('lesson-mode')) fitLessonContent();
+    if(!document.body.classList.contains('lesson-mode')) return;
+    const modalOpen = document.getElementById('writingModal').classList.contains('open');
+    if(modalOpen) return; // dang mo khung viet: khong tinh lai de tranh xung dot/treo may
+    clearTimeout(resizeDebounceTimer);
+    resizeDebounceTimer = setTimeout(fitLessonContent, 150);
   });
 
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('.speak-btn');
-    if(btn){ e.stopPropagation(); speak(btn.dataset.speak); }
+    if(btn){ e.stopPropagation(); speak(btn.dataset.speak, btn); }
   });
+  warmUpSpeech();
 
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => switchScreen(btn.dataset.screen));
