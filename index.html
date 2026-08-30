@@ -60,7 +60,7 @@ body{
 }
 .hero-total-time{font-size:12.5px; color:var(--ink-soft); margin-top:-8px; margin-bottom:14px;}
 .home-greeting{display:flex; align-items:center; justify-content:space-between; font-size:15px; font-weight:700; color:var(--ink); margin-bottom:10px;}
-.home-greeting .edit-name-link{font-size:12px; font-weight:600; color:var(--ink-soft); text-decoration:underline; cursor:pointer; background:none; border:none;}
+.edit-name-link{font-size:12px; font-weight:700; color:var(--seal); text-decoration:underline; cursor:pointer; background:none; border:none; padding:4px 0;}
 
 /* Muc tieu hoc moi ngay */
 .goal-card{display:flex; align-items:center; gap:16px; background:#fff; border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:16px; box-shadow:var(--shadow);}
@@ -79,6 +79,11 @@ body{
 .suggest-card .si{font-size:24px; flex-shrink:0;}
 .suggest-card .st{flex:1; font-size:13px; color:var(--seal-dark); font-weight:600; line-height:1.4;}
 .suggest-card .sa{font-size:20px; color:var(--seal-dark); flex-shrink:0;}
+.music-entry-btn{
+  width:100%; background:linear-gradient(135deg, var(--seal), var(--seal-dark)); color:#fff; border:none;
+  border-radius:14px; padding:16px; font-size:14.5px; font-weight:800; cursor:pointer; margin-bottom:16px;
+  box-shadow:var(--shadow);
+}
 
 /* Muc thu gon / xo ra tren trang chu */
 .collapse-section{margin-bottom:10px;}
@@ -303,6 +308,20 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
   font-size:16px; margin-bottom:14px; text-align:center; background:#fff;
 }
 .name-input:focus{outline:none; border-color:var(--seal);}
+
+/* Modal nhac nghi giai lao */
+.break-modal-overlay{
+  display:none; position:fixed; inset:0; z-index:250; background:rgba(20,25,32,.6);
+  align-items:center; justify-content:center; padding:24px;
+}
+.break-modal-overlay.open{display:flex;}
+.break-modal-box{max-width:340px; width:100%; background:#fff; border-radius:20px; padding:28px 24px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,.25);}
+.break-modal-icon{font-size:44px; margin-bottom:12px;}
+.break-modal-title{font-size:17px; font-weight:800; color:var(--ink); margin-bottom:8px;}
+.break-modal-sub{font-size:13px; color:var(--ink-soft); line-height:1.5; margin-bottom:20px;}
+
+.session-timer.countdown-warn{background:#FFE8CC; color:#8A5300;}
+.session-timer.countdown-danger{background:var(--seal-tint); color:var(--seal-dark); font-weight:800;}
 .name-zh-preview{min-height:20px; font-size:14px; color:var(--seal-dark); font-weight:700; margin:-6px 0 14px;}
 .name-zh-preview.muted{color:var(--ink-soft); font-weight:500; font-size:12.5px;}
 .greet-zh{color:var(--seal); font-weight:700;}
@@ -388,6 +407,28 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 .chip-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; margin-bottom:14px;}
 .sub-screen-header{margin-bottom:8px;}
 .sub-back-btn{background:none; border:none; color:var(--seal); font-weight:700; font-size:14px; cursor:pointer; padding:8px 0;}
+
+/* Nhac thu gian */
+.music-hint{font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;}
+.music-source-tabs{display:flex; gap:8px; margin-bottom:12px;}
+.src-tab{flex:1; background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:10px; font-weight:700; font-size:13px; color:var(--ink-soft); cursor:pointer;}
+.src-tab.active{background:var(--seal-tint); border-color:var(--seal); color:var(--seal-dark);}
+.lyrics-textarea{
+  width:100%; min-height:140px; padding:12px 14px; border:1.5px solid var(--border); border-radius:12px;
+  font-size:13px; font-family:inherit; resize:vertical; background:#fff; line-height:1.6; margin-top:8px;
+}
+.lyrics-textarea:focus{outline:none; border-color:var(--seal);}
+.yt-player-wrap{position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:12px; overflow:hidden; margin-bottom:14px;}
+.yt-player-wrap iframe{width:100%; height:100%; border:none;}
+.lyrics-display{background:#fff; border:1px solid var(--border); border-radius:14px; padding:8px; max-height:400px; overflow-y:auto; box-shadow:var(--shadow);}
+.lyric-line{padding:12px 14px; border-radius:10px; margin-bottom:4px; cursor:pointer; transition:background .2s;}
+.lyric-line:active{background:var(--paper-deep);}
+.lyric-line .l-zh{font-size:19px; font-weight:700; color:var(--ink-soft);}
+.lyric-line .l-py{font-size:12.5px; color:var(--gold); margin-top:2px;}
+.lyric-line .l-vi{font-size:12px; color:var(--ink-soft); font-style:italic; margin-top:2px;}
+.lyric-line.active{background:var(--seal-tint);}
+.lyric-line.active .l-zh{color:var(--seal-dark); font-size:22px;}
+.lyric-line.active .l-py{color:var(--seal);}
 .chip{flex-shrink:0; background:#fff; border:1px solid var(--border); border-radius:20px; padding:9px 15px; font-size:13.5px; font-weight:700; color:var(--ink-soft); cursor:pointer;}
 .chip.active{background:var(--seal); color:#fff; border-color:var(--seal);}
 .chip.srs-chip{background:#FFF3D6; border-color:#F0C97A; color:#8D6E00; font-weight:800;}
@@ -417,6 +458,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 
 /* Lesson topic label */
 .lesson-topic-label{text-align:center; font-size:12px; color:var(--ink-soft); font-weight:700; margin-bottom:4px;}
+.timer-caption{text-align:center; font-size:10.5px; color:var(--ink-soft); margin-bottom:6px;}
 
 /* Badge shelf */
 .badge-shelf{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:10px;}
@@ -424,6 +466,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 .voice-pick-list{display:flex; flex-direction:column; gap:6px; margin-top:8px;}
 .voice-pick-btn{text-align:left; background:#fff; border:1.5px solid var(--border); border-radius:8px; padding:8px 10px; font-size:12px; color:var(--ink); cursor:pointer;}
 .voice-pick-btn.active{border-color:var(--bamboo); background:var(--bamboo-tint); color:var(--bamboo-dark); font-weight:700;}
+.voice-install-hint{margin-top:10px; font-size:11.5px; color:var(--ink-soft); line-height:1.6; background:var(--paper-deep); border-radius:8px; padding:10px 12px;}
 .voice-diag-box:empty{display:none;}
 .badge-item{background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px 6px; text-align:center;}
 .badge-item.locked{opacity:.45;}
@@ -499,10 +542,14 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
       <div class="goal-title" id="goalTitle">Mục tiêu hôm nay</div>
       <div class="goal-sub" id="goalSub">0/1 nhóm từ</div>
       <button type="button" class="edit-name-link" id="editGoalBtn">Đổi mục tiêu</button>
+      <span style="display:inline-block;width:14px;"></span>
+      <button type="button" class="edit-name-link" id="editSessionLimitBtn">Đổi thời lượng phiên</button>
     </div>
   </div>
 
   <div class="suggest-card" id="suggestTopicCard" style="display:none;"></div>
+
+  <button type="button" class="music-entry-btn" id="musicHomeBtn">🎵 Nhạc thư giãn tiếng Trung</button>
 
   <!-- Chon chu de: mac dinh XO RA vi day la thao tac chinh -->
   <div class="collapse-section">
@@ -550,6 +597,11 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
     <div class="collapse-body" id="secVoice">
       <button class="btn-secondary" id="btnVoiceDiag">Kiểm tra giọng đọc tiếng Trung</button>
       <div class="voice-diag-box" id="voiceDiagResult"></div>
+      <div class="voice-install-hint">
+        💡 Muốn có thêm giọng nam/nữ để chọn? Cài thêm giọng đọc tiếng Trung trong Cài đặt máy:<br>
+        <b>iPhone:</b> Cài đặt → Trợ năng → Nội dung đọc → Giọng nói → Tiếng Trung → tải thêm giọng.<br>
+        <b>Android:</b> Cài đặt → Hệ thống → Ngôn ngữ & nhập liệu → Chuyển văn bản thành giọng nói → cài thêm giọng Trung.
+      </div>
     </div>
   </div>
 
@@ -574,11 +626,23 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
   <div class="lesson-header">
     <button class="lesson-back" id="lessonBackBtn" title="Về trang chủ">🏠</button>
     <div class="progress-track"><div class="progress-fill" id="lessonProgressFill" style="width:0%"></div></div>
-    <div class="session-timer" id="sessionTimerLesson">⏱ 0:00</div>
+    <div class="session-timer" id="sessionTimerLesson" title="Đếm ngược đến lúc nên nghỉ giải lao">⏱ 0:00</div>
   </div>
   <div class="lesson-topic-label" id="lessonTopicLabel"></div>
+  <div class="timer-caption" id="timerCaption">⏳ Đếm ngược đến lúc nên nghỉ giải lao</div>
   <div class="step-label" id="lessonStepLabel">Ôn tập từ cũ</div>
   <div class="lesson-body-viewport" id="lessonBodyViewport"><div id="lessonBody"></div></div>
+</div>
+
+<!-- ============ MODAL NHAC NGHI GIAI LAO ============ -->
+<div class="break-modal-overlay" id="breakModalOverlay">
+  <div class="break-modal-box">
+    <div class="break-modal-icon">🌿</div>
+    <div class="break-modal-title">Đã học liên tục <span id="breakModalMinutes">45</span> phút rồi!</div>
+    <div class="break-modal-sub">Nghỉ mắt và não vài phút sẽ giúp bạn ghi nhớ tốt hơn — và tránh app bị chậm do mở quá lâu.</div>
+    <button class="btn-primary" id="breakContinueBtn">Học tiếp thêm 45 phút</button>
+    <button type="button" class="skip-link" id="breakGoHomeBtn">Nghỉ ngay — Về trang chủ</button>
+  </div>
 </div>
 
 <!-- ============ MODAL TẬP VIẾT (toàn màn hình, cố định) ============ -->
@@ -615,6 +679,45 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
   <div class="section-label" style="margin-top:0;">Ôn tập tự do</div>
   <div class="chip-row" id="reviewChips"></div>
   <div id="reviewBody"></div>
+</div>
+
+<!-- ============ NHAC THU GIAN ============ -->
+<div class="screen" id="screen-music">
+  <div class="sub-screen-header">
+    <button type="button" class="sub-back-btn" data-goto="home">← Trang chủ</button>
+  </div>
+  <div class="section-label" style="margin-top:0;">🎵 Nhạc thư giãn tiếng Trung</div>
+  <div class="music-hint">
+    Dán link YouTube hoặc chọn file nhạc trên máy (nhạc bạn đã có sẵn hợp pháp), rồi dán lời bài hát kèm mốc thời gian — app sẽ tự chạy chữ theo đúng nhịp nhạc.
+  </div>
+
+  <div id="musicSetup">
+    <div class="music-source-tabs">
+      <button type="button" class="src-tab active" id="srcTabYoutube" data-src="youtube">▶️ YouTube</button>
+      <button type="button" class="src-tab" id="srcTabFile" data-src="file">📁 File trên máy</button>
+    </div>
+
+    <div id="musicSrcYoutube">
+      <input type="text" id="ytLinkInput" class="name-input" placeholder="Dán link YouTube bài hát...">
+    </div>
+    <div id="musicSrcFile" style="display:none;">
+      <input type="file" id="audioFileInput" accept="audio/*" class="name-input" style="padding:10px;">
+    </div>
+
+    <div class="section-label" style="font-size:11px;">Lời bài hát (mỗi dòng 1 câu, đúng định dạng)</div>
+    <textarea id="lyricsInput" class="lyrics-textarea" placeholder="0:05 | 你好 | nǐ hǎo | Xin chào
+0:10 | 谢谢你 | xièxie nǐ | Cảm ơn bạn
+0:15 | 再见 | zàijiàn | Tạm biệt"></textarea>
+    <div class="music-hint" style="margin-top:6px;">Định dạng mỗi dòng: <b>phút:giây | chữ Hán | pinyin | nghĩa tiếng Việt</b></div>
+    <button class="btn-primary" id="loadMusicBtn" style="margin-top:12px;">🎵 Bắt đầu nghe</button>
+  </div>
+
+  <div id="musicPlayer" style="display:none;">
+    <div id="ytPlayerWrap" class="yt-player-wrap"></div>
+    <audio id="localAudioPlayer" controls style="width:100%; margin-bottom:14px;"></audio>
+    <div class="lyrics-display" id="lyricsDisplay"></div>
+    <button class="btn-secondary" id="editLyricsBtn" style="margin-top:14px;">✏️ Sửa lời / Đổi bài khác</button>
+  </div>
 </div>
 
 <!-- ============ VOCAB LIST ============ -->
@@ -674,6 +777,7 @@ function defaultState(){
     topicsCompleted: [],     // ma chu de da hoc het it nhat 1 lan
     badges: [],              // id huy hieu da dat duoc
     totalStudySeconds: 0,    // tong thoi gian hoc luy ke (giay), cong don qua cac phien
+    sessionLimitMinutes: 45, // gioi han thoi gian 1 phien hoc lien tuc truoc khi nhac nghi (phut)
     dailyGoal: 1,            // muc tieu so nhom tu hoc moi ngay
     todayBatchesDone: 0,     // so nhom tu da hoan thanh HOM NAY
     todayGoalDate: null,     // ngay (YYYY-MM-DD) ung voi todayBatchesDone, de tu reset khi sang ngay moi
@@ -1108,13 +1212,32 @@ function formatDuration(totalSeconds){
   return `${s} giây`;
 }
 
+let sessionCycleStartSec = 0;   // moc bat dau chu ky nghi hien tai
+let breakReminderShown = false; // da hien nhac nghi cho chu ky nay chua
+
 function tickSessionTimer(){
   sessionSeconds++;
   const clockStr = '⏱ ' + formatClock(sessionSeconds);
   const topEl = document.getElementById('sessionTimerTop');
   if(topEl) topEl.textContent = clockStr;
+
+  // Man hinh hoc: hien DEM NGUOC den moc nhac nghi thay vi dem xuoi, de nguoi hoc
+  // biet con bao lau nua nen nghi giai lao.
   const lessonEl = document.getElementById('sessionTimerLesson');
-  if(lessonEl) lessonEl.textContent = clockStr;
+  if(lessonEl){
+    const limitSeconds = (STATE.sessionLimitMinutes || 25) * 60;
+    const remaining = Math.max(0, limitSeconds - (sessionSeconds - sessionCycleStartSec));
+    lessonEl.textContent = '⏳ ' + formatClock(remaining);
+    lessonEl.classList.remove('countdown-warn', 'countdown-danger');
+    if(remaining <= 60) lessonEl.classList.add('countdown-danger');
+    else if(remaining <= 5 * 60) lessonEl.classList.add('countdown-warn');
+  }
+
+  const limitSeconds = (STATE.sessionLimitMinutes || 25) * 60;
+  if(!breakReminderShown && (sessionSeconds - sessionCycleStartSec) >= limitSeconds){
+    breakReminderShown = true;
+    showBreakReminder();
+  }
 
   if(sessionSeconds % 30 === 0){
     STATE.totalStudySeconds = (STATE.totalStudySeconds || 0) + 30;
@@ -1124,26 +1247,43 @@ function tickSessionTimer(){
   }
 }
 
+function showBreakReminder(){
+  document.getElementById('breakModalMinutes').textContent = STATE.sessionLimitMinutes || 25;
+  document.getElementById('breakModalOverlay').classList.add('open');
+}
+function closeBreakReminder(){
+  document.getElementById('breakModalOverlay').classList.remove('open');
+}
+function resetBreakCycle(){
+  sessionCycleStartSec = sessionSeconds;
+  breakReminderShown = false;
+  closeBreakReminder();
+}
+
+function splitIntoClauses(text){
+  // Tach cau theo dau cau tieng Trung, giu dau cau dinh kem cum truoc do, de tao
+  // khoang ngat quang tu nhien giua cac menh de khi doc (dia chi "nhan nha, ngat quang").
+  const parts = text.split(/([，,。！？；：、])/);
+  const clauses = [];
+  for(let i = 0; i < parts.length; i += 2){
+    const chunk = (parts[i] || '') + (parts[i + 1] || '');
+    if(chunk.trim()) clauses.push(chunk);
+  }
+  return clauses.length ? clauses : [text];
+}
+
 function speak(text, btnEl){
   if(!text || !('speechSynthesis' in window)) return;
   try{
     const synth = window.speechSynthesis;
-    // Chi huy nhung cau dang doc do (khong huy khi khong co gi dang phat), va KHONG
-    // dung setTimeout truoc speak() - Safari/iOS yeu cau goi speak() dong bo ngay
-    // trong thao tac cham cua nguoi dung, tri hoan se bi trinh duyet chan im lang.
     if(synth.speaking || synth.pending){ synth.cancel(); }
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'zh-CN';
-    u.rate = 0.85;
     const zhVoice = findChineseVoice();
-    if(zhVoice) u.voice = zhVoice;
+    const clauses = splitIntoClauses(text);
 
-    // Phan hoi ngay lap tuc de nguoi dung biet la dang xu ly, khong phai bi treo
-    // (mot so trinh duyet/thiet bi can vai giay "khoi dong nguoi" cho lan doc dau tien).
+    let restore = () => {};
     if(btnEl){
       btnEl.classList.add('speaking');
       const isWide = btnEl.classList.contains('wide');
-      let restore;
       if(isWide){
         const original = btnEl.dataset.origLabel || btnEl.textContent;
         btnEl.dataset.origLabel = original;
@@ -1152,15 +1292,79 @@ function speak(text, btnEl){
       } else {
         restore = () => { btnEl.classList.remove('speaking'); };
       }
-      u.onstart = () => { if(isWide) btnEl.textContent = '🔊 Đang đọc...'; };
-      u.onend = restore;
-      u.onerror = restore;
-      // An toan: neu qua 8 giay ma van chua bat dau/ket thuc thi tu phuc hoi giao dien,
-      // tranh nut bi ket vinh vien neu dong co doc gap loi khong bao loi ro rang.
-      setTimeout(() => { if(btnEl.classList.contains('speaking')) restore(); }, 8000);
+      // An toan: neu qua lau ma van chua ket thuc thi tu phuc hoi giao dien
+      setTimeout(() => { if(btnEl.classList.contains('speaking')) restore(); }, 8000 + clauses.length * 500);
     }
 
-    synth.speak(u);
+    let idx = 0;
+    function speakNext(){
+      if(idx >= clauses.length){ restore(); return; }
+      const u = new SpeechSynthesisUtterance(clauses[idx]);
+      u.lang = 'zh-CN';
+      u.rate = 0.85;
+      if(zhVoice) u.voice = zhVoice;
+      if(idx === 0 && btnEl && btnEl.classList.contains('wide')){
+        u.onstart = () => { btnEl.textContent = '🔊 Đang đọc...'; };
+      }
+      // Ngat quang ngan giua cac menh de (dau phay/cham) de nghe tu nhien hon,
+      // gan giong cach nguoi ban ngu ngung hoi khi noi.
+      u.onend = () => { idx++; setTimeout(speakNext, idx < clauses.length ? 230 : 0); };
+      u.onerror = () => { idx++; speakNext(); };
+      synth.speak(u);
+    }
+    speakNext();
+  }catch(e){ /* trinh duyet khong ho tro phat am, bo qua */ }
+}
+
+function speakSentenceWithEmphasis(text, targetWord, btnEl){
+  if(!text || !('speechSynthesis' in window)) return;
+  const foundIdx = targetWord ? text.indexOf(targetWord) : -1;
+  if(!targetWord || foundIdx === -1) return speak(text, btnEl);
+  try{
+    const synth = window.speechSynthesis;
+    if(synth.speaking || synth.pending){ synth.cancel(); }
+    const zhVoice = findChineseVoice();
+    const before = text.slice(0, foundIdx);
+    const after = text.slice(foundIdx + targetWord.length);
+    const segs = [];
+    if(before) segs.push({ t: before, emp: false });
+    segs.push({ t: targetWord, emp: true });
+    if(after) segs.push({ t: after, emp: false });
+
+    let restore = () => {};
+    if(btnEl){
+      btnEl.classList.add('speaking');
+      const isWide = btnEl.classList.contains('wide');
+      if(isWide){
+        const original = btnEl.dataset.origLabel || btnEl.textContent;
+        btnEl.dataset.origLabel = original;
+        btnEl.textContent = '🔊 Đang tải...';
+        restore = () => { btnEl.classList.remove('speaking'); btnEl.textContent = btnEl.dataset.origLabel; };
+      } else {
+        restore = () => { btnEl.classList.remove('speaking'); };
+      }
+      setTimeout(() => { if(btnEl.classList.contains('speaking')) restore(); }, 9000);
+    }
+
+    let i = 0;
+    function next(){
+      if(i >= segs.length){ restore(); return; }
+      const seg = segs[i];
+      const u = new SpeechSynthesisUtterance(seg.t);
+      u.lang = 'zh-CN';
+      // Tu can hoc (tu vung dang day) doc CHAM hon va cao giong hon mot chut de
+      // tao cam giac nhan manh ro rang, giup nguoi hoc de nhan ra tu trong cau.
+      u.rate = seg.emp ? 0.65 : 0.88;
+      u.pitch = seg.emp ? 1.15 : 1.0;
+      if(zhVoice) u.voice = zhVoice;
+      if(i === 0 && btnEl && btnEl.classList.contains('wide')){
+        u.onstart = () => { btnEl.textContent = '🔊 Đang đọc...'; };
+      }
+      u.onend = () => { i++; setTimeout(next, i < segs.length ? 260 : 0); };
+      u.onerror = () => { i++; next(); };
+      synth.speak(u);
+    }
+    next();
   }catch(e){ /* trinh duyet khong ho tro phat am, bo qua */ }
 }
 
@@ -1215,6 +1419,146 @@ function playWrongSound(){
   }catch(e){ /* bo qua neu trinh duyet khong ho tro */ }
 }
 
+/* ---------- Nhac thu gian: nhung YouTube / phat file, chay chu theo loi ---------- */
+let MUSIC = { lines: [], sourceType: null, ytPlayer: null, syncTimer: null };
+
+function parseLyrics(text){
+  return text.split('\n').map(line => {
+    const m = line.match(/^\s*(\d+):(\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*$/);
+    if(!m) return null;
+    const time = parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+    return { time, zh: m[3], py: m[4], vi: m[5] };
+  }).filter(Boolean).sort((a, b) => a.time - b.time);
+}
+
+function extractYouTubeId(url){
+  const m = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function renderLyricsDisplay(){
+  const wrap = document.getElementById('lyricsDisplay');
+  wrap.innerHTML = MUSIC.lines.map((ln, i) => `
+    <div class="lyric-line" data-idx="${i}">
+      <div class="l-zh hanzi">${ln.zh}</div>
+      <div class="l-py">${ln.py}</div>
+      <div class="l-vi">${ln.vi}</div>
+    </div>`).join('');
+  wrap.querySelectorAll('.lyric-line').forEach(el => {
+    el.addEventListener('click', () => seekMusicTo(MUSIC.lines[parseInt(el.dataset.idx, 10)].time));
+  });
+}
+
+function seekMusicTo(seconds){
+  if(MUSIC.sourceType === 'yt' && MUSIC.ytPlayer && MUSIC.ytPlayer.seekTo){
+    MUSIC.ytPlayer.seekTo(seconds, true);
+  } else if(MUSIC.sourceType === 'file'){
+    document.getElementById('localAudioPlayer').currentTime = seconds;
+    document.getElementById('localAudioPlayer').play();
+  }
+}
+
+function updateLyricsHighlight(currentTime){
+  let activeIdx = -1;
+  for(let i = 0; i < MUSIC.lines.length; i++){
+    if(MUSIC.lines[i].time <= currentTime) activeIdx = i;
+    else break;
+  }
+  const lineEls = document.querySelectorAll('#lyricsDisplay .lyric-line');
+  lineEls.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+  if(activeIdx >= 0 && lineEls[activeIdx]){
+    lineEls[activeIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function startLyricsSync(){
+  clearInterval(MUSIC.syncTimer);
+  MUSIC.syncTimer = setInterval(() => {
+    let t = 0;
+    if(MUSIC.sourceType === 'yt' && MUSIC.ytPlayer && MUSIC.ytPlayer.getCurrentTime){
+      t = MUSIC.ytPlayer.getCurrentTime();
+    } else if(MUSIC.sourceType === 'file'){
+      t = document.getElementById('localAudioPlayer').currentTime;
+    }
+    updateLyricsHighlight(t);
+  }, 300);
+}
+
+function createYtPlayer(videoId){
+  document.getElementById('ytPlayerWrap').innerHTML = '<div id="ytPlayerInner"></div>';
+  MUSIC.ytPlayer = new YT.Player('ytPlayerInner', {
+    videoId: videoId,
+    playerVars: { rel: 0 },
+    events: { onReady: () => startLyricsSync() }
+  });
+}
+
+function loadYouTubeVideo(videoId){
+  if(window.YT && window.YT.Player){
+    createYtPlayer(videoId);
+  } else {
+    window.onYouTubeIframeAPIReady = () => createYtPlayer(videoId);
+    if(!document.getElementById('ytIframeApiScript')){
+      const tag = document.createElement('script');
+      tag.id = 'ytIframeApiScript';
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.body.appendChild(tag);
+    }
+  }
+}
+
+function startMusicSession(){
+  const lyricsText = document.getElementById('lyricsInput').value.trim();
+  const lines = parseLyrics(lyricsText);
+  if(lines.length === 0){
+    alert('Chưa có dòng lời nào đúng định dạng "phút:giây | chữ Hán | pinyin | nghĩa". Vui lòng kiểm tra lại.');
+    return;
+  }
+  MUSIC.lines = lines;
+
+  const isYoutube = document.getElementById('srcTabYoutube').classList.contains('active');
+  document.getElementById('ytPlayerWrap').style.display = isYoutube ? 'block' : 'none';
+  document.getElementById('localAudioPlayer').style.display = isYoutube ? 'none' : 'block';
+
+  if(isYoutube){
+    const url = document.getElementById('ytLinkInput').value.trim();
+    const videoId = extractYouTubeId(url);
+    if(!videoId){ alert('Link YouTube không hợp lệ, vui lòng kiểm tra lại.'); return; }
+    MUSIC.sourceType = 'yt';
+    loadYouTubeVideo(videoId);
+  } else {
+    const fileInput = document.getElementById('audioFileInput');
+    if(!fileInput.files[0]){ alert('Vui lòng chọn 1 file nhạc trên máy.'); return; }
+    MUSIC.sourceType = 'file';
+    const audio = document.getElementById('localAudioPlayer');
+    audio.src = URL.createObjectURL(fileInput.files[0]);
+    audio.play();
+    startLyricsSync();
+  }
+
+  renderLyricsDisplay();
+  document.getElementById('musicSetup').style.display = 'none';
+  document.getElementById('musicPlayer').style.display = 'block';
+}
+
+function stopMusicSession(){
+  clearInterval(MUSIC.syncTimer);
+  if(MUSIC.ytPlayer && MUSIC.ytPlayer.destroy) MUSIC.ytPlayer.destroy();
+  MUSIC.ytPlayer = null;
+  document.getElementById('localAudioPlayer').pause();
+  document.getElementById('musicPlayer').style.display = 'none';
+  document.getElementById('musicSetup').style.display = 'block';
+}
+
+function guessVoiceGender(voiceName){
+  const n = (voiceName || '').toLowerCase();
+  const female = ['ting', 'mei', 'yao', 'jia', 'hui', 'xin', 'ying', 'nu', 'lin', 'lily', 'female', 'huihui', 'yaoyao', 'xiaoxiao', 'xiaoyi'];
+  const male = ['kang', 'wei', 'gang', 'jun', 'nan', 'yun', 'male', 'kangkang', 'yunyang', 'yunxi', 'zhiwei'];
+  if(female.some(k => n.includes(k))) return '👩 Nữ';
+  if(male.some(k => n.includes(k))) return '👨 Nam';
+  return '';
+}
+
 function runVoiceDiagnostic(){
   const box = document.getElementById('voiceDiagResult');
   if(!box) return;
@@ -1230,10 +1574,12 @@ function runVoiceDiagnostic(){
       html += `Chọn giọng bạn thích nghe nhất:`;
       html += '<div class="voice-pick-list">' + zhVoices.map(v => {
         const active = (STATE.preferredVoiceURI ? STATE.preferredVoiceURI === v.voiceURI : v === zhVoices[0]);
-        return `<button type="button" class="voice-pick-btn ${active ? 'active' : ''}" data-uri="${v.voiceURI}">${active ? '✓ ' : ''}${v.name} (${v.lang})</button>`;
+        const gender = guessVoiceGender(v.name);
+        return `<button type="button" class="voice-pick-btn ${active ? 'active' : ''}" data-uri="${v.voiceURI}">${active ? '✓ ' : ''}${gender ? gender + ' — ' : ''}${v.name} (${v.lang})</button>`;
       }).join('') + '</div>';
     } else {
-      html += `Giọng duy nhất: <b>${zhVoices[0].name}</b>.`;
+      const gender = guessVoiceGender(zhVoices[0].name);
+      html += `Giọng duy nhất: <b>${gender ? gender + ' ' : ''}${zhVoices[0].name}</b>. Máy của bạn chỉ có 1 giọng tiếng Trung — muốn có thêm lựa chọn nam/nữ, xem hướng dẫn cài thêm giọng bên dưới.`;
     }
     box.innerHTML = html;
     box.querySelectorAll('.voice-pick-btn').forEach(btn => {
@@ -1289,6 +1635,16 @@ function renderHome(){
     const val = prompt(`Chọn mục tiêu số nhóm từ học mỗi ngày (${labels}):`, String(STATE.dailyGoal));
     const n = parseInt(val, 10);
     if(n && n > 0 && n <= 20){ setDailyGoal(n); renderHome(); }
+  });
+  document.getElementById('editSessionLimitBtn').addEventListener('click', () => {
+    const val = prompt('Đổi thời lượng 1 phiên học trước khi nhắc nghỉ (phút), ví dụ 25 / 45 / 60:', String(STATE.sessionLimitMinutes || 45));
+    const n = parseInt(val, 10);
+    if(n && n > 0 && n <= 180){
+      STATE.sessionLimitMinutes = n;
+      saveState();
+      resetBreakCycle();
+      alert(`Đã đổi thời lượng phiên học thành ${n} phút.`);
+    }
   });
 
   // The goi y chu de can on nhat
@@ -1590,6 +1946,10 @@ function updateLessonChrome(){
   if(topicLabel){
     topicLabel.textContent = `${TOPIC_ICONS[LESSON.topicCode]} ${TOPIC_NAMES[LESSON.topicCode]} · Nhóm ${LESSON.batchIndex + 1}/${totalBatches}`;
   }
+  const timerCaption = document.getElementById('timerCaption');
+  if(timerCaption){
+    timerCaption.textContent = `⏳ Đếm ngược đến lúc nên nghỉ giải lao (${STATE.sessionLimitMinutes || 45} phút/phiên)`;
+  }
   const labels = {
     'review':'Ôn tập từ cũ', 'flashcards':'Từ mới', 'matching':'Nối từ',
     'examples':'Ví dụ ngữ cảnh', 'pronounce':'Luyện phát âm',
@@ -1628,17 +1988,24 @@ function renderLessonStep(){
   requestAnimationFrame(fitLessonContent);
 }
 
+let fitLessonContentBusy = false;
 function fitLessonContent(){
-  const viewport = document.getElementById('lessonBodyViewport');
-  const body = document.getElementById('lessonBody');
-  if(!viewport || !body) return;
-  body.style.transform = 'none';
-  const available = viewport.clientHeight;
-  const natural = body.scrollHeight;
-  if(available > 0 && natural > available + 2){
-    let scale = available / natural;
-    scale = Math.max(0.5, Math.min(1, scale));
-    body.style.transform = `scale(${scale})`;
+  if(fitLessonContentBusy) return; // chan goi long nhau, tranh vong lap gay treo may
+  fitLessonContentBusy = true;
+  try{
+    const viewport = document.getElementById('lessonBodyViewport');
+    const body = document.getElementById('lessonBody');
+    if(!viewport || !body) return;
+    body.style.transform = 'none';
+    const available = viewport.clientHeight;
+    const natural = body.scrollHeight;
+    if(available > 0 && natural > available + 2){
+      let scale = available / natural;
+      scale = Math.max(0.5, Math.min(1, scale));
+      body.style.transform = `scale(${scale})`;
+    }
+  } finally {
+    fitLessonContentBusy = false;
   }
 }
 
@@ -2052,7 +2419,7 @@ function renderStepExamples(body){
       <div class="word-py">${w.p} · ${w.v}</div>
       <button class="speak-btn sm" data-speak="${w.h}" style="margin-bottom:10px;">🔊</button>
       <div id="exContent">${hasEx
-        ? `<div class="sent-zh hanzi">${w.ez}</div><div class="sent-py">${w.ep}</div><div class="sent-vi">${w.ev}</div><button class="speak-btn wide" data-speak="${w.ez}" style="margin-top:10px;">🔊 Nghe câu</button>`
+        ? `<div class="sent-zh hanzi">${w.ez}</div><div class="sent-py">${w.ep}</div><div class="sent-vi">${w.ev}</div><button class="speak-btn wide" data-speak="${w.ez}" data-emphasis="${w.h}" style="margin-top:10px;">🔊 Nghe câu</button>`
         : `<div class="err-box">Từ này chưa có câu ví dụ.</div>`}</div>
     </div>
     <div class="fc-nav" style="margin-top:16px;">
@@ -2574,21 +2941,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   setInterval(tickSessionTimer, 1000);
+  document.getElementById('breakContinueBtn').addEventListener('click', resetBreakCycle);
+  document.getElementById('breakGoHomeBtn').addEventListener('click', () => {
+    resetBreakCycle();
+    if(document.body.classList.contains('lesson-mode')) exitLesson();
+    else switchScreen('home');
+  });
   let resizeDebounceTimer = null;
   window.addEventListener('resize', () => {
+    if(document.hidden) return; // tab dang chay nen, khong can tinh lai
     if(!document.body.classList.contains('lesson-mode')) return;
     const modalOpen = document.getElementById('writingModal').classList.contains('open');
     if(modalOpen) return; // dang mo khung viet: khong tinh lai de tranh xung dot/treo may
     clearTimeout(resizeDebounceTimer);
-    resizeDebounceTimer = setTimeout(fitLessonContent, 150);
+    resizeDebounceTimer = setTimeout(fitLessonContent, 250);
   });
 
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('.speak-btn');
-    if(btn){ e.stopPropagation(); speak(btn.dataset.speak, btn); }
+    if(btn){
+      e.stopPropagation();
+      if(btn.dataset.emphasis) speakSentenceWithEmphasis(btn.dataset.speak, btn.dataset.emphasis, btn);
+      else speak(btn.dataset.speak, btn);
+    }
   }, true); // dung capture-phase: chan su kien TRUOC KHI no lan den the flashcard cha
             // (neu de bubble-phase nhu truoc, bam nut loa se vo tinh lam lat luon ca the)
   warmUpSpeech();
+  getSfxCtx(); // lam nong AudioContext som, giam rui ro lan phat am thanh dau tien bi cham/khong ra tieng
 
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => switchScreen(btn.dataset.screen));
@@ -2596,6 +2975,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelectorAll('.sub-back-btn').forEach(btn => {
     btn.addEventListener('click', () => switchScreen(btn.dataset.goto));
   });
+
+  document.getElementById('musicHomeBtn').addEventListener('click', () => switchScreen('music'));
+  document.querySelectorAll('.src-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.src-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const isYt = tab.dataset.src === 'youtube';
+      document.getElementById('musicSrcYoutube').style.display = isYt ? 'block' : 'none';
+      document.getElementById('musicSrcFile').style.display = isYt ? 'none' : 'block';
+    });
+  });
+  document.getElementById('loadMusicBtn').addEventListener('click', startMusicSession);
+  document.getElementById('editLyricsBtn').addEventListener('click', stopMusicSession);
 
   document.getElementById('lessonBackBtn').addEventListener('click', () => {
     if(confirm('Thoát bài học? Tiến độ câu hỏi đang làm dở sẽ không được lưu (phần đã hoàn thành trước đó vẫn giữ nguyên). Bạn có thể xuất file lưu tiến độ bất cứ lúc nào ở trang chủ.')){
