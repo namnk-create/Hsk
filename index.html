@@ -114,7 +114,7 @@ body{
 #screen-lesson.active{
   display:flex; flex-direction:column;
   position:fixed; inset:0; z-index:100; background:var(--paper);
-  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  padding:calc(10px + env(safe-area-inset-top)) 16px calc(10px + env(safe-area-inset-bottom));
   overflow:hidden; max-width:640px; margin:0 auto;
 }
 .lesson-body-viewport{flex:1; min-height:0; overflow:hidden; position:relative; width:100%;}
@@ -178,8 +178,12 @@ body{
 
 /* ---------- Lesson flow ---------- */
 .lesson-header{display:flex; align-items:center; gap:10px; margin-bottom:10px; position:sticky; top:0; background:var(--paper); z-index:30; padding-top:10px; padding-bottom:4px;}
-.lesson-back{background:none; border:none; font-size:22px; color:var(--ink-soft); cursor:pointer; padding:10px; min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; margin:-10px 0 -10px -6px; border-radius:50%;}
-.lesson-back:active{background:var(--paper-deep);}
+.lesson-back{
+  background:var(--paper-deep); border:1.5px solid var(--border); color:var(--ink);
+  font-size:20px; font-weight:700; cursor:pointer; width:40px; height:40px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; border-radius:50%; box-shadow:var(--shadow);
+}
+.lesson-back:active{background:var(--seal-tint); border-color:var(--seal);}
 .progress-track{flex:1; height:7px; background:var(--paper-deep); border-radius:6px; overflow:hidden;}
 .progress-fill{height:100%; background:var(--seal); border-radius:6px; transition:width .3s;}
 .step-label{font-size:12px; color:var(--ink-soft); font-weight:700; text-align:center; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;}
@@ -283,7 +287,8 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 /* Modal hoi ten nguoi hoc */
 .name-modal-overlay{
   display:none; position:fixed; inset:0; z-index:300; background:var(--paper);
-  align-items:center; justify-content:center; padding:24px;
+  align-items:center; justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));
 }
 .name-modal-overlay.open{display:flex;}
 .name-modal-box{max-width:360px; width:100%; text-align:center;}
@@ -299,6 +304,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 }
 .name-input:focus{outline:none; border-color:var(--seal);}
 .name-zh-preview{min-height:20px; font-size:14px; color:var(--seal-dark); font-weight:700; margin:-6px 0 14px;}
+.name-zh-preview.muted{color:var(--ink-soft); font-weight:500; font-size:12.5px;}
 .greet-zh{color:var(--seal); font-weight:700;}
 .restore-divider{display:flex; align-items:center; gap:10px; margin:16px 0 12px; color:var(--ink-soft); font-size:12px;}
 .restore-divider::before, .restore-divider::after{content:''; flex:1; height:1px; background:var(--border);}
@@ -334,7 +340,9 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 /* Modal tap viet toan man hinh - co dinh, khong the cuon nen phia sau */
 .writing-modal-overlay{
   display:none; position:fixed; inset:0; z-index:200; background:rgba(30,26,22,.72);
-  align-items:center; justify-content:center; padding:24px 20px; touch-action:none; overscroll-behavior:none;
+  align-items:center; justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));
+  touch-action:none; overscroll-behavior:none;
 }
 .writing-modal-overlay.open{display:flex;}
 .writing-modal-box{
@@ -344,6 +352,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 .writing-modal-header{display:flex; align-items:center; justify-content:space-between; width:100%; margin-bottom:12px;}
 .writing-modal-header #writingModalWord{font-size:19px; font-weight:800;}
 .writing-modal-close{background:var(--paper-deep); border:none; width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; color:var(--ink-soft); flex-shrink:0;}
+.writing-modal-home{background:var(--paper-deep); border:none; width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; flex-shrink:0;}
 .pen-size-row{display:flex; gap:8px; margin-bottom:12px; width:100%;}
 .pen-btn{flex:1; background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:9px 4px; font-size:13px; font-weight:700; color:var(--ink-soft); cursor:pointer;}
 .pen-btn.active{background:var(--seal-tint); border-color:var(--seal); color:var(--seal-dark);}
@@ -377,6 +386,8 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 .empty-state{text-align:center; padding:50px 20px; color:var(--ink-soft);}
 .empty-state .em{font-size:44px; margin-bottom:10px;}
 .chip-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; margin-bottom:14px;}
+.sub-screen-header{margin-bottom:8px;}
+.sub-back-btn{background:none; border:none; color:var(--seal); font-weight:700; font-size:14px; cursor:pointer; padding:8px 0;}
 .chip{flex-shrink:0; background:#fff; border:1px solid var(--border); border-radius:20px; padding:9px 15px; font-size:13.5px; font-weight:700; color:var(--ink-soft); cursor:pointer;}
 .chip.active{background:var(--seal); color:#fff; border-color:var(--seal);}
 .chip.srs-chip{background:#FFF3D6; border-color:#F0C97A; color:#8D6E00; font-weight:800;}
@@ -561,7 +572,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 <!-- ============ LESSON FLOW ============ -->
 <div class="screen" id="screen-lesson">
   <div class="lesson-header">
-    <button class="lesson-back" id="lessonBackBtn">✕</button>
+    <button class="lesson-back" id="lessonBackBtn" title="Về trang chủ">🏠</button>
     <div class="progress-track"><div class="progress-fill" id="lessonProgressFill" style="width:0%"></div></div>
     <div class="session-timer" id="sessionTimerLesson">⏱ 0:00</div>
   </div>
@@ -574,6 +585,7 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 <div class="writing-modal-overlay" id="writingModal">
   <div class="writing-modal-box">
     <div class="writing-modal-header">
+      <button type="button" class="writing-modal-home" id="writingModalHome" title="Về trang chủ">🏠</button>
       <div id="writingModalWord"></div>
       <button type="button" class="writing-modal-close" id="writingModalClose">✕</button>
     </div>
@@ -597,6 +609,9 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 
 <!-- ============ REVIEW (ôn tập tự do) ============ -->
 <div class="screen" id="screen-review">
+  <div class="sub-screen-header">
+    <button type="button" class="sub-back-btn" data-goto="home">← Trang chủ</button>
+  </div>
   <div class="section-label" style="margin-top:0;">Ôn tập tự do</div>
   <div class="chip-row" id="reviewChips"></div>
   <div id="reviewBody"></div>
@@ -604,6 +619,9 @@ body.lesson-mode #screen-lesson{padding-top:4px;}
 
 <!-- ============ VOCAB LIST ============ -->
 <div class="screen" id="screen-vocab">
+  <div class="sub-screen-header">
+    <button type="button" class="sub-back-btn" data-goto="home">← Trang chủ</button>
+  </div>
   <div class="section-label" style="margin-top:0;">Toàn bộ 447 từ vựng</div>
   <input class="search-box" id="vocabSearch" placeholder="🔍 Tìm theo chữ Hán, pinyin hoặc nghĩa...">
   <div id="vocabList"></div>
@@ -700,12 +718,51 @@ const VN_NAME_TO_HANZI = {
   'thu':{h:'秋',p:'qiū'}, 'hạ':{h:'夏',p:'xià'}, 'đông':{h:'冬',p:'dōng'}, 'nga':{h:'娥',p:'é'},
   'tuyết':{h:'雪',p:'xuě'}, 'my':{h:'美',p:'měi'}, 'mỹ':{h:'美',p:'měi'}, 'kim':{h:'金',p:'jīn'},
   'châu':{h:'珠',p:'zhū'}, 'giang':{h:'江',p:'jiāng'}, 'hằng':{h:'姮',p:'héng'}, 'thắm':{h:'湛',p:'zhàn'},
-  'thúy':{h:'翠',p:'cuì'}, 'nhung':{h:'绒',p:'róng'}
+  'thúy':{h:'翠',p:'cuì'}, 'nhung':{h:'绒',p:'róng'},
+  'hà':{h:'河',p:'hé'}, 'an':{h:'安',p:'ān'}, 'bảo':{h:'宝',p:'bǎo'}, 'đạt':{h:'达',p:'dá'},
+  'duy':{h:'维',p:'wéi'}, 'đình':{h:'廷',p:'tíng'}, 'hiếu':{h:'孝',p:'xiào'}, 'huy':{h:'辉',p:'huī'},
+  'khoa':{h:'科',p:'kē'}, 'lâm':{h:'林',p:'lín'}, 'nghị':{h:'毅',p:'yì'}, 'phát':{h:'发',p:'fā'},
+  'phú':{h:'富',p:'fù'}, 'quân':{h:'军',p:'jūn'}, 'quốc':{h:'国',p:'guó'}, 'tài':{h:'才',p:'cái'},
+  'tân':{h:'新',p:'xīn'}, 'thành':{h:'成',p:'chéng'}, 'thịnh':{h:'盛',p:'shèng'}, 'toàn':{h:'全',p:'quán'},
+  'vũ':{h:'武',p:'wǔ'}, 'võ':{h:'武',p:'wǔ'}, 'bích':{h:'碧',p:'bì'}, 'chi':{h:'芝',p:'zhī'},
+  'diệp':{h:'叶',p:'yè'}, 'diễm':{h:'艳',p:'yàn'}, 'đào':{h:'桃',p:'táo'}, 'duyên':{h:'缘',p:'yuán'},
+  'hiền':{h:'贤',p:'xián'}, 'huệ':{h:'惠',p:'huì'}, 'huyền':{h:'玄',p:'xuán'}, 'liên':{h:'莲',p:'lián'},
+  'nhã':{h:'雅',p:'yǎ'}, 'oanh':{h:'莺',p:'yīng'}, 'quyên':{h:'娟',p:'juān'}, 'quỳnh':{h:'琼',p:'qióng'},
+  'thư':{h:'书',p:'shū'}, 'trâm':{h:'簪',p:'zān'}, 'uyên':{h:'渊',p:'yuān'}, 'khang':{h:'康',p:'kāng'},
+  'khôi':{h:'魁',p:'kuí'}, 'khương':{h:'姜',p:'jiāng'}, 'lợi':{h:'利',p:'lì'}, 'nguyên':{h:'元',p:'yuán'},
+  'phi':{h:'飞',p:'fēi'}, 'thiên':{h:'天',p:'tiān'}, 'tiến':{h:'进',p:'jìn'}, 'trường':{h:'长',p:'cháng'},
+  'văn':{h:'文',p:'wén'}, 'thị':{h:'氏',p:'shì'}
 };
+const VN_SURNAME_TO_HANZI = {
+  'nguyễn':{h:'阮',p:'ruǎn'}, 'trần':{h:'陈',p:'chén'}, 'lê':{h:'黎',p:'lí'}, 'phạm':{h:'范',p:'fàn'},
+  'hoàng':{h:'黄',p:'huáng'}, 'huỳnh':{h:'黄',p:'huáng'}, 'phan':{h:'潘',p:'pān'}, 'vũ':{h:'武',p:'wǔ'},
+  'võ':{h:'武',p:'wǔ'}, 'đặng':{h:'邓',p:'dèng'}, 'bùi':{h:'裴',p:'péi'}, 'đỗ':{h:'杜',p:'dù'},
+  'hồ':{h:'胡',p:'hú'}, 'ngô':{h:'吴',p:'wú'}, 'dương':{h:'杨',p:'yáng'}, 'lý':{h:'李',p:'lǐ'},
+  'đinh':{h:'丁',p:'dīng'}, 'đào':{h:'陶',p:'táo'}, 'vương':{h:'王',p:'wáng'}, 'trương':{h:'张',p:'zhāng'},
+  'đoàn':{h:'段',p:'duàn'}, 'lâm':{h:'林',p:'lín'}, 'mai':{h:'梅',p:'méi'}, 'tô':{h:'苏',p:'sū'},
+  'tạ':{h:'谢',p:'xiè'}, 'chu':{h:'朱',p:'zhū'}, 'kiều':{h:'乔',p:'qiáo'}, 'cao':{h:'高',p:'gāo'},
+  'lưu':{h:'刘',p:'liú'}, 'thái':{h:'蔡',p:'cài'}, 'hà':{h:'何',p:'hé'}, 'quách':{h:'郭',p:'guō'},
+  'từ':{h:'徐',p:'xú'}, 'lương':{h:'梁',p:'liáng'}, 'tăng':{h:'曾',p:'zēng'}, 'diệp':{h:'叶',p:'yè'},
+  'uông':{h:'汪',p:'wāng'}, 'âu':{h:'欧',p:'ōu'}, 'viên':{h:'袁',p:'yuán'}, 'tôn':{h:'孙',p:'sūn'},
+  'vệ':{h:'卫',p:'wèi'}, 'thân':{h:'申',p:'shēn'}, 'lục':{h:'陆',p:'lù'}, 'kim':{h:'金',p:'jīn'},
+  'tưởng':{h:'蒋',p:'jiǎng'}, 'hứa':{h:'许',p:'xǔ'}, 'khổng':{h:'孔',p:'kǒng'}, 'quan':{h:'关',p:'guān'},
+  'trịnh':{h:'郑',p:'zhèng'}, 'chung':{h:'钟',p:'zhōng'}, 'lãnh':{h:'冷',p:'lěng'}
+};
+
 function lookupNameZh(name){
   if(!name) return null;
   const tokens = name.trim().toLowerCase().split(/\s+/);
-  // Uu tien tu cuoi cung (ten goi thuong dat cuoi ho ten day du), sau do thu ca cum
+  // Thu dich toan bo ho ten: tu dau la ho (VN_SURNAME), cac tu sau la ten (VN_NAME)
+  if(tokens.length > 1){
+    const surname = VN_SURNAME_TO_HANZI[tokens[0]];
+    const givenParts = tokens.slice(1).map(t => VN_NAME_TO_HANZI[t]);
+    if(surname && givenParts.every(Boolean)){
+      const h = surname.h + givenParts.map(g => g.h).join('');
+      const p = surname.p + ' ' + givenParts.map(g => g.p).join(' ');
+      return { h, p };
+    }
+  }
+  // Khong ghep duoc day du -> uu tien tu cuoi cung (ten goi thuong dat cuoi ho ten day du)
   const lastWord = tokens[tokens.length - 1];
   if(VN_NAME_TO_HANZI[lastWord]) return VN_NAME_TO_HANZI[lastWord];
   const fullLower = name.trim().toLowerCase();
@@ -1794,6 +1851,12 @@ function closeWritingModal(){
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('writingModalClose').addEventListener('click', closeWritingModal);
+  document.getElementById('writingModalHome').addEventListener('click', () => {
+    if(confirm('Về trang chủ? Tiến độ câu hỏi đang làm dở sẽ không được lưu (phần đã hoàn thành trước đó vẫn giữ nguyên).')){
+      closeWritingModal();
+      exitLesson();
+    }
+  });
 
   // Chan cung hanh vi cuon trang / vuot chuyen tab cua trinh duyet khi ve trong canvas.
   // CSS touch-action:none khong duoc mot so trinh duyet di dong tuan thu day du,
@@ -2461,7 +2524,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('nameInput').addEventListener('input', (e) => {
     const zh = lookupNameZh(e.target.value);
     const preview = document.getElementById('nameZhPreview');
-    preview.textContent = zh ? `Tên bạn trong tiếng Trung: ${zh.h} (${zh.p})` : '';
+    if(zh){
+      preview.textContent = `Tên bạn trong tiếng Trung: ${zh.h} (${zh.p})`;
+      preview.classList.remove('muted');
+    } else if(e.target.value.trim()){
+      preview.textContent = 'Chưa có sẵn bản dịch cho tên này — vẫn dùng bình thường bằng tiếng Việt nhé.';
+      preview.classList.add('muted');
+    } else {
+      preview.textContent = '';
+    }
   });
 
   // Khoi phuc tien do tu file cu, ngay tu man hinh dau tien
@@ -2521,6 +2592,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => switchScreen(btn.dataset.screen));
+  });
+  document.querySelectorAll('.sub-back-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchScreen(btn.dataset.goto));
   });
 
   document.getElementById('lessonBackBtn').addEventListener('click', () => {
