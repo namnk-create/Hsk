@@ -1,0 +1,15 @@
+{
+  "name": "HSK Tứ Kỹ",
+  "short_name": "HSK Tứ Kỹ",
+  "description": "Tự học tiếng Trung HSK1–5: từ vựng, nghe, nói, hội thoại, đọc, viết",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF6EC",
+  "theme_color": "#B23A2E",
+  "lang": "vi",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
